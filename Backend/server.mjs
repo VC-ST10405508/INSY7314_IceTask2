@@ -1,35 +1,34 @@
-import express from "express";
+import https from "https";
+import fs from "fs";
+import posts from "./routes/post.mjs"
+import users from "./routes/users.mjs"
+import express from  "express";
+import cors from "cors";
+
 const PORT = 3000;
 const app = express();
-const urlprefix = "/api";
 
+const options ={
+    key: fs.readFileSync('keys/privatekey.pem'),
+    cert: fs.readFileSync('keys/certificate.pem')
+}
+
+app.use(cors());
 app.use(express.json());
 
-app.get(urlprefix+"/", (req, res)=>{
-    res.send("I am finally figuring this out, no more crying")
+app.use((reg,res,next) =>
+{
+    res.setHeader('Access-Control-Allow-Origin', '');
+    res.setHeader('Access-Control-Allow-Headers','');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    next();
 })
 
-app.get(urlprefix+"/orders", (req, res)=> {
-    const orders = [
-        {
-            id: "1",
-            name: "orange"
-        },
-        {
-            id: "2",
-            name: "apple"
-        },
-        {
-            id: "3",
-            name: "Mango"
-        }
-    ]
-    res.json(
-        {
-            message: "Fruits",
-            orders: orders
-        }
-    )
-})
+app.use("/posts", posts);
+app.route("/posts", posts);
+app.use("/user", users);
+//app.route("/user", users)
 
-app.listen(PORT);
+let server = https.createServer(options,app)
+console.log(PORT)
+server.listen(PORT);
