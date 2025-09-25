@@ -16,12 +16,12 @@ const App = () =>{
     <div>
       <NavBar/>
       <Routes>
-        <Route exact path="/" element={<PostList/>}/>
-        <Route path="/edit/:id" element={<EditPost/>}/>
-        <Route path="/create" element={<CreatePost/>}/>
-        <Route path="/register" element={<Register/>}/>
-        <Route path="/login" element={<Login/>}/>
-      </Routes>
+        <Route path="/" element={<PostList />} />
+        <Route path="/edit/:id" element={<EditPost />} />
+        <Route path="/create" element={<CreatePost />} />
+        <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+</Routes>
     </div>
   );
 };
